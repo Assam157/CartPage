@@ -14,45 +14,32 @@ const ProductList = () => {
     const navigate=useNavigate();
     // Fetch products and extract unique product types
     useEffect(() => {
- const fetchProducts = async () => {
+  const fetchProducts = async () => {
     try {
-        // Make the API request to the backend
-        const response = await axios.get('https://backendju-3.onrender.com/api/products'); // Adjust the API endpoint as needed
-
-        // Check if response is successful
-        if (response.status === 200) {
-            const products = response.data;
-
-            // Check if products data is an array
-            if (Array.isArray(products)) {
-                console.log("Products fetched successfully:", products);
-                
-                // Extract unique product types from the products
-                const types = [...new Set(products.map(product => product.type))];
-                console.log("Unique product types:", types);
-
-                // Set state for product types and products
-                setProductTypes(types);
-                setSortedProducts(products);
-            } else {
-                console.error("Expected an array of products, but got:", products);
+        const response = await fetch('https://backendju-3.onrender.com/api/products', {
+            method: 'GET', // Request method
+            headers: {
+                'Content-Type': 'application/json',
+                // Add any other headers you need, like authorization
             }
-        } else {
-            console.error("Failed to fetch products. Status:", response.status);
+        });
+
+        // Check if the response is ok (status code 200-299)
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+
+        const products = await response.json();
+        console.log("Are Here", products);
+
+        // Extract unique product types from the products
+        const types = [...new Set(products.map(product => product.type))];
+        console.log(types);
+
+        setProductTypes(types); // Set product types state
+        setSortedProducts(products); // Set the fetched products to sortedProducts
     } catch (error) {
-        // Handle any errors that occur during the request
-        console.error('Error fetching products:', error.message || error);
-        if (error.response) {
-            // If the error comes from the server (response)
-            console.error("Response error:", error.response.data);
-        } else if (error.request) {
-            // If no response was received
-            console.error("No response received:", error.request);
-        } else {
-            // Any other errors
-            console.error("Error message:", error.message);
-        }
+        console.error('Error fetching products:', error);
     }
 };
 
