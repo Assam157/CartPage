@@ -43,7 +43,7 @@ const BuyPage = () => {
         }
     
         // Step 3: Call your PHP backend to create an order
-        const orderData = await fetch('https://backendju-3.onrender.com//api/razorpay/create-order', {
+        const orderData = await fetch('https://backendju-3.onrender.com/api/razorpay/create-order', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ amount: totalPrice })
@@ -60,12 +60,12 @@ const BuyPage = () => {
                 alert('Payment successful');
     
                 // Step 5: Verify payment on the server
-                await fetch('https://backendju-3.onrender.com//api/razorpay/verify', {
+                await fetch('https://backendju-3.onrender.com/api/razorpay/verify', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(response)
                 });
-                const stockUpdateResponse = await fetch('https://backendju-3.onrender.com//update_stock', {
+                const stockUpdateResponse = await fetch('https://backendju-3.onrender.com/update_stock', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ products: productsToBuy })
