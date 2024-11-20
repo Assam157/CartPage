@@ -9,14 +9,29 @@ export const ItemProvider = ({ children }) => {
 
   // Fetch products from the API
   useEffect(() => {
+    
     const fetchProducts = async () => {
-      try {
-        const response = await axios.get('https://backendju-3.onrender.com/api/products');
-        setItems(response.data); // Update the state with fetched products
-      } catch (error) {
-        console.log('Error fetching products:', error);
+  try {
+    const response = await fetch('https://backendju-3.onrender.com/api/products', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        // You can add any additional headers here, if needed
       }
-    };
+    });
+
+    // Check if the response is OK (status 200-299)
+    if (!response.ok) {
+      throw new Error('Error fetching products: ' + response.statusText);
+    }
+
+    const data = await response.json(); // Parse the response body as JSON
+    setItems(data); // Update the state with fetched products
+  } catch (error) {
+    console.log('Error fetching products:', error);
+  }
+};
+
 
     fetchProducts();
   }, []);
