@@ -14,20 +14,47 @@ const ProductList = () => {
     const navigate=useNavigate();
     // Fetch products and extract unique product types
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                const response = await axios.get('https://backendju-3.onrender.com/api/products'); // Adjust the API endpoint as needed
-                const products = response.data;
-                console.log("Are Here",products)
+ const fetchProducts = async () => {
+    try {
+        // Make the API request to the backend
+        const response = await axios.get('https://backendju-3.onrender.com/api/products'); // Adjust the API endpoint as needed
+
+        // Check if response is successful
+        if (response.status === 200) {
+            const products = response.data;
+
+            // Check if products data is an array
+            if (Array.isArray(products)) {
+                console.log("Products fetched successfully:", products);
+                
                 // Extract unique product types from the products
                 const types = [...new Set(products.map(product => product.type))];
-                console.log(types)
-                setProductTypes(types); // Set product types state
-                setSortedProducts(products); // Set the fetched products to sortedProducts
-            } catch (error) {
-                console.error('Error fetching products:', error);
+                console.log("Unique product types:", types);
+
+                // Set state for product types and products
+                setProductTypes(types);
+                setSortedProducts(products);
+            } else {
+                console.error("Expected an array of products, but got:", products);
             }
-        };
+        } else {
+            console.error("Failed to fetch products. Status:", response.status);
+        }
+    } catch (error) {
+        // Handle any errors that occur during the request
+        console.error('Error fetching products:', error.message || error);
+        if (error.response) {
+            // If the error comes from the server (response)
+            console.error("Response error:", error.response.data);
+        } else if (error.request) {
+            // If no response was received
+            console.error("No response received:", error.request);
+        } else {
+            // Any other errors
+            console.error("Error message:", error.message);
+        }
+    }
+};
 
         fetchProducts();
     }, []); // Only run once on component mount
