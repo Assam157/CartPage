@@ -12,7 +12,7 @@ const SignUp = () => {
         e.preventDefault();
         
         try {
-            const response = await fetch("https://backendju-3.onrender.com//signup", {
+            const response = await fetch("https://backendju-3.onrender.com/signup", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
