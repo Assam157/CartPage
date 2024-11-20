@@ -11,7 +11,7 @@ export const ItemProvider = ({ children }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/products');
+        const response = await axios.get('https://backendju-3.onrender.com/api/products');
         setItems(response.data); // Update the state with fetched products
       } catch (error) {
         console.log('Error fetching products:', error);
