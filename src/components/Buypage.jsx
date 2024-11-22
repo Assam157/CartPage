@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+ import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './BuyPage.css';
 const loadScript = (src) => {
@@ -27,6 +27,7 @@ const BuyPage = () => {
     const totalPrice = productsToBuy.reduce((total, item) => {
         return total + item.price * item.quantity;
     }, 0);
+    console.log('Total Price:', totalPrice);
 
     // Handle item deletion
     const handleDelete = (productId) => {
@@ -42,16 +43,21 @@ const BuyPage = () => {
             return;
         }
     
-        // Step 3: Call your PHP backend to create an order
-        const orderData = await fetch('https://enigmatic-shelf-01881-15c9cb2f80b1.herokuapp.com/api/razorpay/create-order', {
+        // Add the query parameters to the URL
+        const apiUrl = `http://localhost:3001/api/razorpay/create-order?username=${encodeURIComponent(username)}`;
+    
+        // Step 3: Call your backend to create an order
+        const orderData = await fetch(apiUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ amount: totalPrice })
         }).then(res => res.json());
     
+        console.log('Order Data from backend:', orderData);
+    
         const options = {
-            key: 'rzp_live_qRnaZ8YPDsdm1G', // Replace with your Razorpay key
-            amount: orderData.amount, 
+            key: 'rzp_test_14mq5wlJmqUxIq', // Replace with your Razorpay key
+            amount: orderData.amount,
             currency: 'INR',
             name: 'Your Company',
             description: 'Test Transaction',
@@ -60,27 +66,27 @@ const BuyPage = () => {
                 alert('Payment successful');
     
                 // Step 5: Verify payment on the server
-                await fetch('https://enigmatic-shelf-01881-15c9cb2f80b1.herokuapp.com/api/razorpay/verify', {
+                await fetch('http://localhost:3001/api/razorpay/verify', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(response)
                 });
-                const stockUpdateResponse = await fetch('https://enigmatic-shelf-01881-15c9cb2f80b1.herokuapp.com/update_stock', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ products: productsToBuy })
-            }).then(res => res.json());
-
-            if (!stockUpdateResponse.success) {
-                alert('Failed to update stock');
-                return;
-            }
-
+    
+                const stockUpdateResponse = await fetch('http://localhost:3001/update_stock', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ products: productsToBuy })
+                }).then(res => res.json());
+    
+                if (!stockUpdateResponse.success) {
+                    alert('Failed to update stock');
+                    return;
+                }
     
                 // Step 6: Send an email confirmation
                 const emailPayload = {
                     email: 'maitreyaguptaa@gmail.com', // Change this to the recipient's email address
-                    orderDetails: productsToBuy.map(product => 
+                    orderDetails: productsToBuy.map(product =>
                         `${product.name} - Type: ${product.type} x ${product.quantity}`
                     ).join('\n') + `\n\nTotal Price: Rs${totalPrice}`,
                 };
@@ -89,7 +95,7 @@ const BuyPage = () => {
                 const encodedEmailPayload = encodeURIComponent(JSON.stringify(emailPayload));
     
                 // Construct the URL with query parameters for GET request
-                const emailUrl = `https://enigmatic-shelf-01881-15c9cb2f80b1.herokuapp.com/send_email?username=${username}&emailPayload=${encodedEmailPayload}`;
+                const emailUrl = `http://localhost:3001/send_email?username=${username}&emailPayload=${encodedEmailPayload}`;
     
                 // Send the GET request
                 await fetch(emailUrl)
@@ -109,6 +115,7 @@ const BuyPage = () => {
         const paymentObject = new window.Razorpay(options);
         paymentObject.open();
     };
+    
     
     
 
@@ -145,3 +152,4 @@ const BuyPage = () => {
 };
 
 export default BuyPage;
+
