@@ -89,7 +89,7 @@ const BuyPage = () => {
                 const encodedEmailPayload = encodeURIComponent(JSON.stringify(emailPayload));
     
                 // Construct the URL with query parameters for GET request
-                const emailUrl = `http://localhost:3001/send_email?username=${username}&emailPayload=${encodedEmailPayload}`;
+                const emailUrl = `https://enigmatic-shelf-01881-15c9cb2f80b1.herokuapp.com/send_email?username=${username}&emailPayload=${encodedEmailPayload}`;
     
                 // Send the GET request
                 await fetch(emailUrl)
