@@ -12,7 +12,7 @@ export const ItemProvider = ({ children }) => {
     
     const fetchProducts = async () => {
   try {
-    const response = await fetch('https://backendju-3.onrender.com/api/products', {
+    const response = await fetch('https://enigmatic-shelf-01881-15c9cb2f80b1.herokuapp.com/api/products', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
