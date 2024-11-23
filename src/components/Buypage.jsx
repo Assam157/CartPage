@@ -72,7 +72,7 @@ const BuyPage = () => {
                 body: JSON.stringify(response)
             });
 
-            const stockUpdateResponse = await fetch(' https://enigmatic-shelf-01881-15c9cb2f80b1.herokuapp.com/update_stock', {
+            const stockUpdateResponse = await fetch('https://enigmatic-shelf-01881-15c9cb2f80b1.herokuapp.com/update_stock', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ products: productsToBuy })
