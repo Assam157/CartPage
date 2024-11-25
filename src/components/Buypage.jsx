@@ -56,7 +56,7 @@ const BuyPage = () => {
     console.log('Order Data from backend:', orderData);
 
     const options = {
-        key:  "rzp_live_qRnaZ8YPDsdm1G", // Replace with your Razorpay key
+        key:    "rzp_test_14mq5wlJmqUxIq", // Replace with your Razorpay key
         amount: orderData.amount,
         currency: 'INR',
         name: 'Your Company',
