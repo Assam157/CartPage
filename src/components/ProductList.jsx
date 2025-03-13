@@ -16,7 +16,7 @@ const ProductList = () => {
     useEffect(() => {
   const fetchProducts = async () => {
     try {
-        const response = await fetch('https://shoppingpage-in.preview-domain.com/api/products', {
+        const response = await fetch('https://shoppingpage-in.com/api/products', {
             method: 'GET', // Request method
             headers: {
                 'Content-Type': 'application/json',
