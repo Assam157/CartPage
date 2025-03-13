@@ -12,7 +12,7 @@ export const ItemProvider = ({ children }) => {
     
     const fetchProducts = async () => {
   try {
-    const response = await fetch('https://shoppingpage-in.com/api/products', {
+    const response = await fetch('https://shoppingpage.in/api/products', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
