@@ -13,7 +13,7 @@ const Login = () => {
         e.preventDefault();
         
         try {
-            const response = await fetch("https://shoppingpage-in.preview-domain.com/login", {
+            const response = await fetch("https://shoppingpage-in.com/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
