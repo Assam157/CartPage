@@ -44,7 +44,7 @@ const BuyPage = () => {
     }
 
     // Add the query parameters to the URL
-    const apiUrl = ` https://shoppingpage-in.preview-domain.com/api/razorpay/create-order?username=${encodeURIComponent(username)}`;
+    const apiUrl = ` https://shoppingpage-in.com/api/razorpay/create-order?username=${encodeURIComponent(username)}`;
 
     // Step 3: Call your backend to create an order
     const orderData = await fetch(apiUrl, {
@@ -66,13 +66,13 @@ const BuyPage = () => {
             alert('Payment successful');
 
             // Step 5: Verify payment on the server
-            await fetch('https://shoppingpage-in.preview-domain.com/api/razorpay/verify', {
+            await fetch('https://shoppingpage-in.com/api/razorpay/verify', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(response)
             });
 
-            const stockUpdateResponse = await fetch('https://shoppingpage-in.preview-domain.com/update_stock', {
+            const stockUpdateResponse = await fetch('https://shoppingpage-in.com/update_stock', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ products: productsToBuy })
@@ -95,7 +95,7 @@ const BuyPage = () => {
             const encodedEmailPayload = encodeURIComponent(JSON.stringify(emailPayload));
 
             // Construct the URL with query parameters for GET request
-            const emailUrl = ` https://shoppingpage-in.preview-domain.com/send_email?username=${username}&emailPayload=${encodedEmailPayload}`;
+            const emailUrl = ` https://shoppingpage-in.com/send_email?username=${username}&emailPayload=${encodedEmailPayload}`;
 
             // Send the GET request
             await fetch(emailUrl)
