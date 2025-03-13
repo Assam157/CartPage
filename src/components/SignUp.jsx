@@ -12,7 +12,7 @@ const SignUp = () => {
         e.preventDefault();
         
         try {
-            const response = await fetch("https://shoppingpage-in.com/signup", {
+            const response = await fetch("https://shoppingpage.in/signup", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
